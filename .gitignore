@@ -1,0 +1,21 @@
+# Gradle
+.gradle/
+build/
+
+# Eclipse
+.project
+.classpath
+.settings/
+bin/
+
+.vscode
+
+# IntelliJ
+.idea
+*.ipr
+*.iml
+*.iws
+
+src/main/resources/twitch.properties
+
+

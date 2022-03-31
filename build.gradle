@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+    id 'io.quarkus'
+    id 'org.openjfx.javafxplugin' version '0.0.12'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+javafx {
+    version = "17.0.2"
+    modules = ['javafx.controls']
+}
+
+dependencies {
+    implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+    implementation 'io.quarkus:quarkus-arc:2.7.5.Final'
+    implementation ('com.github.twitch4j:twitch4j:1.8.0')
+    implementation ("org.openjfx:javafx-base:$javafx.version:linux")
+    implementation ("org.openjfx:javafx-graphics:$javafx.version:linux")
+    implementation ("org.openjfx:javafx-controls:$javafx.version:linux")
+}
+
+group 'de.uwe'
+version '1.0.0-SNAPSHOT'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-parameters'
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8'
+}

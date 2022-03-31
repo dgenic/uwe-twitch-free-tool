@@ -1,0 +1,207 @@
+/* uwe colors */
+* {
+   -fx-base1: rgb(29, 29, 29);
+   -fx-base2: rgb(44, 77, 88);
+   -fx-color-red: rgb(252, 122, 122);
+   -fx-color-yellow: rgb(252, 228, 122);
+   -fx-color-green: rgb(122, 252, 133);
+   -fx-color-blue: rgb(124, 122, 255);
+   -fx-color-gray: rgb(160, 160, 160);
+   -fx-color-gray-dark: rgb(60, 60, 60);
+   -fx-color-red-dark: rgb(80, 50, 50);
+}
+
+.action-button {
+    -fx-cursor: hand;
+}
+/* table-view style */
+.uwe-table-view {
+    -fx-background-color: derive(-fx-base1, -50%);
+   /* -fx-border-color: transparent;*/
+    -fx-focus-traversable: false;
+    -fx-font-size: 12px;
+    -fx-background-insets: 0.0;
+
+}
+/*
+.uwe-table-view .column-header-background,
+.uwe-table-view .column-header-background .filler,
+.uwe-table-view .corner {
+	-fx-background-color: transparent;
+}
+
+.uwe-table-view .column-header {
+	-fx-background-color: derive(-fx-base1, -80%);
+	-fx-border-color: -fx-color-gray;
+}
+.uwe-table-view .column-header .label{
+	-fx-font-weight: bold;
+	-fx-alignment: center-left;
+}
+*/
+.uwe-table-view .cell{
+ /*  -fx-cell-size: 15;
+  -fx-alignment: center-left;
+  -fx-background-color: #29292D;
+  -fx-border-color: #29292D;
+  -fx-text-fill: lightgray;
+  -fx-alignment: CENTER_LEFT;*/
+
+}
+
+
+.uwe-table-view .table-cell{
+   /* -fx-font-size: 12px;*/
+	/*-fx-alignment: center-left;*/
+   /* -fx-padding: 1px 5px 1px 5px;*/
+    -fx-border-color: transparent;
+
+
+}
+
+.table-row-cell:filled {
+    -fx-background-color: linear-gradient(derive(-fx-base1, -30%), derive(-fx-base1, -50%));
+    -fx-border-color: transparent;
+	/*-fx-border-color: transparent -fx-lightest-grey-color -fx-lightest-grey-color -fx-lightest-grey-color, transparent;*/
+	/*-fx-border-insets: 0, 1;*/
+}
+.table-row-cell:empty {
+	-fx-background-color: derive(-fx-base1, -50%);
+}
+.table-row-cell:filled:hover {
+	-fx-background-color: linear-gradient(derive(-fx-base1, 30%), derive(-fx-base1, 10%));
+}
+.table-row-cell:filled:selected:hover {
+    -fx-background-color: linear-gradient(derive(-fx-color-green, -60%), derive(-fx-color-green, -80%));
+
+}
+.table-row-cell:filled:selected {
+  	-fx-background-color: linear-gradient(derive(-fx-color-blue, -60%), derive(-fx-color-blue, -80%));
+
+ 	/*-fx-background-insets: 0.0;
+	-fx-background-radius: 0.0;*/
+}
+/*
+.table-row-cell:filled:selected .table-cell {
+	-fx-text-fill: black;
+}
+.table-view .cell:filled{
+	-fx-cell-size: 30;
+	-fx-alignment: center-left;
+}
+'/
+
+
+/*
+.uwe-table-view.column-header {
+    -fx-background-color: derive(-fx-base1, -80%);
+}
+.uwe-table-view.cell {
+    -fx-background-color: derive(-fx-base1, -50%);
+    -fx-padding: 1px 5px 1px 5px;
+}
+.uwe-table-view.cell:hover {
+    -fx-background-color: derive(-fx-color-green, -50%);
+}
+.uwe-table-view.cell:selected {
+    -fx-background-color: derive(-fx-color-blue, -50%);
+}
+.uwe-table-view.table-row-cell:selected {
+    -fx-background-color: derive(-fx-color-green, -50%);
+
+}
+*/
+.uwe-table-column {
+   /* -fx-background-color: derive(-fx-color-yellow, -50%);*/
+}
+
+
+/* list-view style */
+.uwe-list-view2,
+.uwe-list-view {
+    -fx-background-color: derive(-fx-base1, -50%);
+    -fx-focus-traversable: false;
+    -fx-font-size: 12px;
+}
+.uwe-list-cell2,
+.uwe-list-cell {
+    -fx-background-color: linear-gradient(derive(-fx-base1, -30%), derive(-fx-base1, -50%));
+    -fx-focus-traversable: false;
+    -fx-padding: 1px 5px 1px 5px;
+}
+.uwe-list-cell2:empty,
+.uwe-list-cell:empty {
+    -fx-background-color: derive(-fx-base1, -50%);
+}
+.uwe-list-cell:hover {
+    -fx-background-color: linear-gradient(derive(-fx-base1, 30%), derive(-fx-base1, 10%));
+}
+.uwe-list-cell:selected {
+     -fx-background-color: linear-gradient(derive(-fx-color-blue, -60%), derive(-fx-color-blue, -80%));
+}
+.uwe-list-cell:pressed {
+    -fx-background-color: linear-gradient(derive(-fx-color-green, -60%), derive(-fx-color-green, -80%));
+}
+
+/* circle style */
+#user-joined{
+    -fx-fill: -fx-color-yellow;
+}
+#user-leaved{
+    -fx-fill: -fx-color-blue;
+}
+#user-not-followed,
+#user-not-sub {
+    -fx-fill: -fx-base1;
+}
+#user-gift-sub {
+    -fx-fill: derive(-fx-color-red, 50%);
+}
+#user-sub {
+    -fx-fill: -fx-color-red;
+}
+#user-followed{
+    -fx-fill: -fx-color-green;
+}
+
+/* toggle selected background */
+.toggle-button {
+    -fx-focus-traversable: false;
+    -fx-font-size: 12px;
+ }
+
+.selected-background-color-red:selected {
+    -fx-background-color: derive(-fx-color-red, -50%);
+}
+.selected-background-color-yellow:selected {
+    -fx-background-color: derive(-fx-color-yellow, -50%);
+}
+.selected-background-color-green:selected {
+    -fx-background-color: derive(-fx-color-green, -50%);
+}
+.selected-background-color-blue:selected {
+    -fx-background-color: derive(-fx-color-blue, -50%);
+}
+
+/*
+.toggle-button.sort-joined:selected {
+    -fx-background-color: derive(-fx-color-yellow, -50%);
+}
+.toggle-button.sort-join-count:selected {
+    -fx-background-color: derive(-fx-color-red, -50%);
+}
+.toggle-button.sort-name:selected {
+    -fx-background-color: derive(-fx-color-blue, -50%);
+}
+.toggle-button.sort-watch-time:selected {
+    -fx-background-color: derive(-fx-color-green, -50%);
+}
+*/
+
+
+
+
+
+
+
+
