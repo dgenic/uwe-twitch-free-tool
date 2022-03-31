@@ -43,6 +43,8 @@ public class BitsLeaderboardView {
                     .map(entry -> entry.getUserLogin()+" "+entry.getRank()+" "+ entry.getScore()).toList();
             observableList.setAll(result);
 
+            ///observableList.setAll(context.getBitsLeaderboard().getEntries().stream().map(entry -> entry.getUserLogin()+" "+entry.getRank()+" "+ entry.getScore()).toList());
+
         });
 
     }

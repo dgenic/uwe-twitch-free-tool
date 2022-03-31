@@ -1,9 +1,8 @@
 package de.uwe;
 
-import de.uwe.views.BitsLeaderboardView;
+import de.uwe.views.FollowListView;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -24,13 +23,13 @@ public class MainView {
     public Context context;
 
     @Inject
-    public BitsLeaderboardView bitsLeaderboardView;
+    public FollowListView followListView;
 
     public void start(@Observes Stage stage) {
 
        // final HBox root = new HBox(bitsLeaderboardView.getNode());
 
-        Scene scene = new Scene((Parent) bitsLeaderboardView.getNode(), WIDTH, HEIGHT);
+        Scene scene = new Scene((Parent) followListView.getNode(), WIDTH, HEIGHT);
 
         scene.getStylesheets().addAll(darkStyle, listViewCss);
 
