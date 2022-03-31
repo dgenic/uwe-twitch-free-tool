@@ -10,10 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -33,13 +30,17 @@ public class FollowListView {
     private final Label totalLabel = new Label();
     private final Region spacer = new Region();
     private final Button fetchButton = new Button("fetch follow");
+    private final Button abortButton = new Button("abort");
+    private final ProgressBar progressBar = new ProgressBar();
 
-    private final HBox topLayout = new HBox(totalLabel, spacer, fetchButton);
+    private final HBox topLayout = new HBox(totalLabel, spacer, fetchButton, abortButton);
 
     private final ObservableList<Follow> observableList = FXCollections.observableArrayList();
     private final ListView<Follow> listView = new ListView<>(observableList);
 
-    private final VBox layout = new VBox(topLayout, listView);
+    private final VBox layout = new VBox(topLayout, progressBar, listView);
+
+    private boolean abort = false;
 
     @Inject
     public Context context;
@@ -47,7 +48,11 @@ public class FollowListView {
     @PostConstruct
     public void construct(){
 
+        progressBar.setPrefWidth(Double.MAX_VALUE);
+
+        topLayout.setSpacing(10);
         HBox.setHgrow(spacer, Priority.ALWAYS);
+
         layout.setSpacing(10);
         layout.setPadding(new Insets(10));
         VBox.setVgrow(listView, Priority.ALWAYS);
@@ -59,18 +64,28 @@ public class FollowListView {
 
         fetchButton.setOnMouseClicked(e -> {
 
+            progressBar.setProgress(0);
+            observableList.clear();
             final FetchEvent<Follow> fetchEvent = (sublist, value, total) -> {
                 System.out.println("FetchEvent Follow "+value+"/"+total+" "+(value/total));
-                return false;
+                Platform.runLater(() -> {
+                    progressBar.setProgress(value/total);
+                    observableList.addAll(sublist);
+                });
+                return abort;
             };
 
             new Thread(() -> {
-                final List<Follow> follows = context.followsToId(fetchEvent);
+                context.followsToId(fetchEvent, 0);
                 Platform.runLater(() -> {
-                    observableList.setAll(follows);
+                    abort = false;
                 });
             }).start();
 
+        });
+
+        abortButton.setOnMouseClicked(e -> {
+            abort = true;
         });
 
     }

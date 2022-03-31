@@ -48,18 +48,21 @@ public class Context {
     }
 
 
-    public List<Follow> followsToId(FetchEvent<Follow> event) {
-        final FollowList followList = twitchClient.getHelix().getFollowers(credential.getAccessToken(), null, user.getId(), null, 100).execute();
-        final List<Follow> follows = followList.getFollows();
-        final int total = followList.getTotal();
-        final List<Follow> result = new ArrayList<>(follows);
-        if(event != null){
-            event.onFetch(follows, result.size(), total);
-        }
-        String cursor = followList.getPagination().getCursor();
-        while(cursor != null){
+    /**
+     *
+     * Fetch Follow to userId
+     *
+     */
+    public List<Follow> followsToId(FetchEvent<Follow> event, int limit) {
+
+        final List<Follow> result = new ArrayList<>();
+
+        String cursor = null;
+        boolean firstFetch = true;
+        while(cursor != null || firstFetch){
+            firstFetch = false;
             cursor = followsToId(event, result, user.getId(), cursor);
-           if(result.size() > 500)
+            if(result.size() >= limit && limit != 0)
                 cursor = null;
         }
         return result;
@@ -71,17 +74,15 @@ public class Context {
         final List<Follow> follows = followList.getFollows();
         final int total = followList.getTotal();
         result.addAll(follows);
-        if(fetchEvent != null){
-            fetchEvent.onFetch(follows, result.size(), total);
-        }
-        if(fetchEvent != null){
+
+        if(fetchEvent != null)
             abort = fetchEvent.onFetch(follows, result.size(), total);
-        }
-        if(abort){
+
+        if(abort)
             return null;
-        }else {
-            return followList.getPagination().getCursor();
-        }
+
+        return followList.getPagination().getCursor();
+
     }
 
 
