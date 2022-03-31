@@ -1,51 +1,45 @@
+Bester Stream! https://twitch.tv/einfachuwe42
 
+# Uwe Twitch Tool
 
-java 17 
+## Java 17 installieren
+
+### Download
 https://github.com/graalvm/graalvm-ce-builds/releases/tag/vm-22.0.0.2
+
+### Umgebung Variabeln und Path
+```
 JAVA_HOME=/home/uwe/graalvm
 PATH=PATH;JAVA_HOME/bin
+```
+## Anwendung anmelden
+Auf der Seite https://dev.twitch.tv/console die Anwendung registrieren.
 
+__OAuth Redirect URLs:__ https://twitchapps.com/tokengen/
 
-https://dev.twitch.tv/console
+__Kategorie:__ Application Integration
 
-Deine Anwendung registrieren
+## OAuth Token erzeugen
 
-Name
-uwes free tool
+Auf der Seite https://twitchapps.com/tokengen/ den OAuth Token mit der ClientId und folgenden Scopes erzeugen.
+```
+bits:read user:edit:follows
+```
 
-OAuth Redirect URLs
-https://twitchapps.com/tokengen/
+## Konfiguration der Anwendung
 
-Kategorie
-Application Integration
+In die Datei `src/main/java/resources/twitch.properties` OAuth Token und ClientId setzen.
 
+```
+O_AUTH=oauth:xxxxxxxxxxxxxxxxxx
+CLIENT_ID=xxxxxxxxxxxxxxxxxxxxx
+```
 
-https://twitchapps.com/tokengen/
+## Anwendung bauen
 
-clientId
-moderator:manage:banned_users user:read:blocked_users user:manage:blocked_users bits:read
+Im Projektordner `gradlew quarkusBuild` ausführen.
 
---> token
+## Anwendung starten
 
+`java -jar $PROJECT_DIR/build/quarkus-app/quarkus-run.jar`
 
-src/main/java/resources/twitch.properties
-
-O_AUTH=oauth:
-CLIENT_ID=
-
-in start.sh
-
-PROJECT_DIR=/home/uwe/java/twitch/uwe-twitch-free-tool
-anpassen
-
-
-./start.sh
- oder
-
-gradlew quarkusBuild
-java -jar $PROJECT_DIR/build/quarkus-app/quarkus-run.jar
-
-
-moderator:manage:banned_users user:read:blocked_users user:manage:blocked_users bits:read
-channel:read:subscriptions user:edit:follows user:edit:broadcast chat:edit chat:read whispers:read whispers:edit
-channel:moderate moderation:read channel:manage:broadcast
