@@ -26,6 +26,10 @@ Auf der Seite https://twitchapps.com/tokengen/ den OAuth Token mit der ClientId 
 bits:read user:edit:follows
 ```
 
+## Git Repo Clonen
+
+`git clone git@github.com:einfachuwe42/uwe-twitch-free-tool.git`
+
 ## Konfiguration der Anwendung
 
 In die Datei `src/main/java/resources/twitch.properties` OAuth Token und ClientId setzen.

@@ -1,7 +1,7 @@
 package de.uwe.views;
 
 import com.github.twitch4j.helix.domain.Follow;
-import com.github.twitch4j.helix.domain.FollowList;
+import com.github.twitch4j.helix.domain.User;
 import de.uwe.Context;
 import de.uwe.FetchEvent;
 import javafx.application.Platform;
@@ -13,7 +13,6 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import javax.annotation.PostConstruct;
@@ -21,19 +20,18 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 @ApplicationScoped
 public class FollowListView {
 
 
     private final Label totalLabel = new Label();
-    private final Region spacer = new Region();
+    private final TextField textField = new TextField();
     private final Button fetchButton = new Button("fetch follow");
     private final Button abortButton = new Button("abort");
     private final ProgressBar progressBar = new ProgressBar();
 
-    private final HBox topLayout = new HBox(totalLabel, spacer, fetchButton, abortButton);
+    private final HBox topLayout = new HBox(totalLabel, textField, fetchButton, abortButton);
 
     private final ObservableList<Follow> observableList = FXCollections.observableArrayList();
     private final ListView<Follow> listView = new ListView<>(observableList);
@@ -51,7 +49,7 @@ public class FollowListView {
         progressBar.setPrefWidth(Double.MAX_VALUE);
 
         topLayout.setSpacing(10);
-        HBox.setHgrow(spacer, Priority.ALWAYS);
+        HBox.setHgrow(textField, Priority.ALWAYS);
 
         layout.setSpacing(10);
         layout.setPadding(new Insets(10));
@@ -76,7 +74,16 @@ public class FollowListView {
             };
 
             new Thread(() -> {
-                context.followsToId(fetchEvent, 0);
+                final String login = textField.getText();
+                System.out.println("login "+login);
+                if(login.length() < 3)
+                    return;
+                final User user = context.userByName(login);
+                System.out.println("user "+user);
+
+                if(user == null)
+                    return;
+                context.followsToId(fetchEvent, user.getId(), 0);
                 Platform.runLater(() -> {
                     abort = false;
                 });

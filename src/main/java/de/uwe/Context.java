@@ -11,6 +11,7 @@ import com.github.twitch4j.helix.domain.User;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @ApplicationScoped
@@ -47,13 +48,22 @@ public class Context {
         return twitchClient.getHelix().getBitsLeaderboard(credential.getAccessToken(), 100, "all", null, null).execute();
     }
 
+    /**
+     *
+     * Fetch User by login
+     *
+     */
+    public User userByName(String login) {
+        return twitchClient.getHelix().getUsers(credential.getAccessToken(), null, Collections.singletonList(login)).execute().getUsers().stream().findFirst().orElse(null);
+    }
+
 
     /**
      *
      * Fetch Follow to userId
      *
      */
-    public List<Follow> followsToId(FetchEvent<Follow> event, int limit) {
+    public List<Follow> followsToId(FetchEvent<Follow> event, String userId, int limit) {
 
         final List<Follow> result = new ArrayList<>();
 
@@ -61,7 +71,7 @@ public class Context {
         boolean firstFetch = true;
         while(cursor != null || firstFetch){
             firstFetch = false;
-            cursor = followsToId(event, result, user.getId(), cursor);
+            cursor = followsToId(event, result, userId, cursor);
             if(result.size() >= limit && limit != 0)
                 cursor = null;
         }
@@ -87,15 +97,5 @@ public class Context {
 
 
 
-
-
-
-//    public FollowList fetchFollows() {
-//        return twitchClient.getHelix().getFollowers(credential.getAccessToken(), null, user.getId(), null, 100).execute();
-//    }
-//
-//    public FollowList fetchFollows(List) {
-//        return twitchClient.getHelix().getFollowers(credential.getAccessToken(), null, user.getId(), null, 100).execute();
-//    }
 
 }
