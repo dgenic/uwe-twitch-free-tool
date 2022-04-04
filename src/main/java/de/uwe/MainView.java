@@ -1,9 +1,11 @@
 package de.uwe;
 
 import de.uwe.views.FollowListView;
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -34,6 +36,7 @@ public class MainView {
         Scene scene = new Scene((Parent) followListView.getNode(), WIDTH, HEIGHT);
 
         scene.getStylesheets().addAll(darkStyle, listViewCss);
+        scene.setFill(Color.rgb(60, 60, 60));
 
         stage.setScene(scene);
         stage.setTitle("Uwe-Twitch-Free-Tool");
@@ -41,7 +44,13 @@ public class MainView {
         stage.centerOnScreen();
         stage.show();
 
-        context.init();
+        new Thread(() -> {
+            context.init();
+            Platform.runLater(() -> {
+                System.out.println("context initialized!");
+            });
+        }).start();
+
 
 
     }

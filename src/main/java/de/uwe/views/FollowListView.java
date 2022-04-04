@@ -8,6 +8,7 @@ import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -29,14 +30,19 @@ public class FollowListView {
     private final TextField textField = new TextField();
     private final Button fetchButton = new Button("fetch follow");
     private final Button abortButton = new Button("abort");
-    private final ProgressBar progressBar = new ProgressBar();
-
     private final HBox topLayout = new HBox(totalLabel, textField, fetchButton, abortButton);
 
-    private final ObservableList<Follow> observableList = FXCollections.observableArrayList();
-    private final ListView<Follow> listView = new ListView<>(observableList);
+    private final ProgressBar progressBar = new ProgressBar();
 
-    private final VBox layout = new VBox(topLayout, progressBar, listView);
+    private final TextField nameFilterTextField = new TextField();
+    private final Button nameFilterClearButton = new Button("clear");
+    private final HBox filterLayout = new HBox(nameFilterTextField, nameFilterClearButton);
+
+    private final ObservableList<Follow> observableList = FXCollections.observableArrayList();
+    private final FilteredList<Follow> filteredList = new FilteredList<>(observableList);
+    private final ListView<Follow> listView = new ListView<>(filteredList);
+
+    private final VBox layout = new VBox(topLayout, progressBar, filterLayout, listView);
 
     private boolean abort = false;
 
@@ -50,6 +56,9 @@ public class FollowListView {
 
         topLayout.setSpacing(10);
         HBox.setHgrow(textField, Priority.ALWAYS);
+
+        filterLayout.setSpacing(10);
+        HBox.setHgrow(nameFilterTextField, Priority.ALWAYS);
 
         layout.setSpacing(10);
         layout.setPadding(new Insets(10));
@@ -75,14 +84,16 @@ public class FollowListView {
 
             new Thread(() -> {
                 final String login = textField.getText();
-                System.out.println("login "+login);
-                if(login.length() < 3)
+                if(login.length() < 3) {
+                    System.out.println("login too short: "+login);
                     return;
+                }
                 final User user = context.userByName(login);
-                System.out.println("user "+user);
-
-                if(user == null)
+                if(user == null) {
+                    System.out.println("user not available: "+login);
                     return;
+                }
+                System.out.println("fetched user: "+user.getLogin());
                 context.followsToId(fetchEvent, user.getId(), 0);
                 Platform.runLater(() -> {
                     abort = false;
@@ -93,6 +104,15 @@ public class FollowListView {
 
         abortButton.setOnMouseClicked(e -> {
             abort = true;
+        });
+
+        nameFilterTextField.setOnKeyTyped(e -> {
+            filteredList.setPredicate(follow -> follow.getFromLogin().contains(nameFilterTextField.getText()));
+        });
+
+        nameFilterClearButton.setOnMouseClicked(e -> {
+            nameFilterTextField.clear();
+            filteredList.setPredicate(follow -> true);
         });
 
     }
